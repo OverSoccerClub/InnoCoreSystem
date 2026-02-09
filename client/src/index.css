@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Safe HSL Syntax with Commas */
+    /* Corporate Enterprise Palette - Light Mode */
+
+    /* Background: Light gray/blue-ish tint for application background (reduces eye strain) */
+    --background: 210, 40%, 98%;
+    /* Foreground: Sharp Slate-900 for text */
+    --foreground: 222, 47%, 11%;
+
+    /* Card: Pure White for content containers */
+    --card: 0, 0%, 100%;
+    --card-foreground: 222, 47%, 11%;
+
+    /* Popover: Pure White */
+    --popover: 0, 0%, 100%;
+    --popover-foreground: 222, 47%, 11%;
+
+    /* Primary: Deep Corporate Blue (InterCore/Stripe Blue) - Authority & Trust */
+    --primary: 221, 83%, 53%;
+    /* #2563eb */
+    --primary-foreground: 210, 40%, 98%;
+
+    /* Secondary: Slate-100 for subtle backgrounds */
+    --secondary: 210, 40%, 96.1%;
+    --secondary-foreground: 222, 47%, 11%;
+
+    /* Muted: Slate-200 for dividers/muted text */
+    --muted: 210, 40%, 96.1%;
+    --muted-foreground: 215, 16%, 47%;
+
+    /* Accent: Slate-100 for hovers */
+    --accent: 210, 40%, 96.1%;
+    --accent-foreground: 222, 47%, 11%;
+
+    /* Destructive: Professional Red */
+    --destructive: 0, 84.2%, 60.2%;
+    --destructive-foreground: 210, 40%, 98%;
+
+    /* Border: Crisp Slate-200 */
+    --border: 214.3, 31.8%, 91.4%;
+    --input: 214.3, 31.8%, 91.4%;
+    --ring: 221, 83%, 53%;
+
+    /* Radius: Sharper, professional look (4px - 6px) */
+    --radius: 0.35rem;
+  }
+
+  .dark {
+    /* Corporate Enterprise Palette - Dark Mode */
+    --background: 222, 47%, 11%;
+    /* Deep Navy/Slate Background */
+    --foreground: 210, 40%, 98%;
+
+    /* Cards: Slightly lighter than background */
+    --card: 217, 33%, 15%;
+    --card-foreground: 210, 40%, 98%;
+
+    --popover: 217, 33%, 15%;
+    --popover-foreground: 210, 40%, 98%;
+
+    --primary: 217, 91%, 60%;
+    /* Lighter Blue for Dark Mode */
+    --primary-foreground: 222, 47%, 11%;
+
+    --secondary: 217, 33%, 20%;
+    --secondary-foreground: 210, 40%, 98%;
+
+    --muted: 217, 33%, 17%;
+    --muted-foreground: 215, 20.2%, 65.1%;
+
+    --accent: 217, 33%, 17%;
+    --accent-foreground: 210, 40%, 98%;
+
+    --destructive: 0, 62.8%, 30.6%;
+    --destructive-foreground: 210, 40%, 98%;
+
+    --border: 217, 33%, 20%;
+    --input: 217, 33%, 20%;
+    --ring: 217, 91%, 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+.glass {
+  @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-sm;
+}

@@ -1,0 +1,499 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  USER
+}
+
+model User {
+  id                    String                 @id @default(uuid())
+  email                 String                 @unique
+  password              String
+  name                  String
+  role                  Role                   @default(USER)
+  permissions           String[]               @default([])
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  auditLogs             AuditLog[]
+  sales                 Sale[]
+  stockMovements        StockMovement[]
+  financialTransactions FinancialTransaction[]
+
+  @@map("users")
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  sku         String    @unique
+  name        String
+  description String?
+  price       Decimal   @db.Decimal(10, 2)
+  costPrice   Decimal   @default(0) @db.Decimal(10, 2)
+  stock       Int       @default(0)
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  // Fiscal Data
+  ncm      String? // Nomenclatura Comum do Mercosul (8 chars)
+  cest     String? // Código Especificador da Substituição Tributária
+  origin   Int?     @default(0) // Origem da Mercadoria (0, 1, 2...)
+  cfop     String? // Código Fiscal de Operações e Prestações (fallback)
+  icmsRate Decimal? @db.Decimal(5, 2) // Alíquota ICMS (fallback)
+
+  saleItems      SaleItem[]
+  purchaseItems  PurchaseItem[]
+  stockMovements StockMovement[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@map("products")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("categories")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  resource  String
+  details   Json?
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model Partner {
+  id          String      @id @default(uuid())
+  name        String // Razão Social / Nome Completo
+  fantasyName String? // Nome Fantasia
+  email       String?
+  phone       String?
+  mobile      String?
+  document    String? // CPF/CNPJ
+  type        PartnerType @default(CLIENT)
+
+  // Tax Info
+  ie String? // Inscrição Estadual
+  im String? // Inscrição Municipal
+
+  // Address
+  zipCode      String?
+  street       String?
+  number       String?
+  complement   String?
+  neighborhood String?
+  city         String?
+  state        String?
+
+  notes  String?
+  active Boolean @default(true)
+
+  sales                 Sale[]
+  purchases             Purchase[]
+  financialTransactions FinancialTransaction[]
+  invoices              Invoice[]
+  accountsReceivable    AccountsReceivable[]
+  accountsPayable       AccountsPayable[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model Sale {
+  id            String        @id @default(uuid())
+  code          Int           @default(autoincrement())
+  total         Decimal       @db.Decimal(10, 2)
+  status        SaleStatus    @default(COMPLETED)
+  paymentMethod PaymentMethod @default(CASH)
+
+  partnerId String?
+  partner   Partner? @relation(fields: [partnerId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  items SaleItem[]
+
+  // Invoice INFO
+  invoiceNumber String?
+  invoiceSeries String?
+  invoiceKey    String?
+  invoiceUrl    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sales")
+}
+
+model SaleItem {
+  id     String @id @default(uuid())
+  saleId String
+  sale   Sale   @relation(fields: [saleId], references: [id])
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  total     Decimal @db.Decimal(10, 2)
+
+  @@map("sale_items")
+}
+
+model StockMovement {
+  id        String  @id @default(uuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  type        MovementType // IN or OUT
+  quantity    Int
+  reason      String? // Ex: "Purchase", "Sale", "Correction", "Damaged"
+  referenceId String? // Optional link to a Sale ID or Purchase Order ID
+
+  createdAt DateTime @default(now())
+
+  @@map("stock_movements")
+}
+
+model Purchase {
+  id            String   @id @default(uuid())
+  invoiceNumber String?
+  invoiceSeries String?
+  invoiceKey    String?
+  issueDate     DateTime @default(now())
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id])
+
+  total  Decimal @db.Decimal(10, 2)
+  status String  @default("COMPLETED")
+
+  items PurchaseItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("purchases")
+}
+
+model PurchaseItem {
+  id         String   @id @default(uuid())
+  purchaseId String
+  purchase   Purchase @relation(fields: [purchaseId], references: [id])
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  total     Decimal @db.Decimal(10, 2)
+
+  @@map("purchase_items")
+}
+
+model FinancialTransaction {
+  id          String            @id @default(uuid())
+  description String
+  amount      Decimal           @db.Decimal(10, 2)
+  type        TransactionType
+  status      TransactionStatus @default(PENDING)
+
+  dueDate DateTime
+  paidAt  DateTime?
+
+  category String // Ex: "Vendas", "Fornecedores", "Despesas Administrativas"
+
+  partnerId String?
+  partner   Partner? @relation(fields: [partnerId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("financial_transactions")
+}
+
+enum PartnerType {
+  CLIENT
+  SUPPLIER
+}
+
+enum MovementType {
+  IN
+  OUT
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionStatus {
+  PENDING
+  PAID
+}
+
+enum SaleStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+}
+
+enum TaxRegime {
+  SIMPLES_NACIONAL
+  LUCRO_PRESUMIDO
+  LUCRO_REAL
+}
+
+enum NfeEnvironment {
+  PRODUCAO
+  HOMOLOGACAO
+}
+
+model Company {
+  id String @id @default(uuid())
+
+  // Basic Info
+  legalName String // Razão Social
+  tradeName String? // Nome Fantasia
+  cnpj      String  @unique
+  ie        String? // Inscrição Estadual
+  im        String? // Inscrição Municipal
+
+  // Contact
+  email   String
+  phone   String
+  website String?
+
+  // Address
+  zipCode      String
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String // UF
+
+  // Fiscal Info
+  taxRegime      TaxRegime      @default(SIMPLES_NACIONAL)
+  cnae           String?
+  nfeEnvironment NfeEnvironment @default(HOMOLOGACAO)
+
+  // NF-e Settings
+  nfeSeries     String @default("1")
+  nfeNextNumber Int    @default(1)
+
+  // Logo
+  logoUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("company")
+}
+
+// ============================================
+// FISCAL SYSTEM
+// ============================================
+
+model Invoice {
+  id     String      @id @default(uuid())
+  number String
+  series String      @default("1")
+  type   InvoiceType @default(NFE) // NFE, NFCE, NFSE
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id])
+
+  amount Decimal       @db.Decimal(10, 2)
+  status InvoiceStatus @default(DRAFT)
+
+  // SEFAZ Data
+  key      String? // Chave de acesso (44 dígitos)
+  protocol String? // Protocolo de autorização
+  xml      String? @db.Text // XML da nota
+
+  // Dates
+  issueDate    DateTime  @default(now())
+  authorizedAt DateTime?
+
+  // Reference
+  saleId String? @unique
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("invoices")
+}
+
+enum InvoiceType {
+  NFE // Nota Fiscal Eletrônica
+  NFCE // Nota Fiscal de Consumidor Eletrônica
+  NFSE // Nota Fiscal de Serviço Eletrônica
+}
+
+enum InvoiceStatus {
+  DRAFT // Rascunho
+  PENDING // Pendente de transmissão
+  AUTHORIZED // Autorizada pela SEFAZ
+  REJECTED // Rejeitada pela SEFAZ
+  CANCELLED // Cancelada
+}
+
+// ============================================
+// ACCOUNTS SYSTEM
+// ============================================
+
+// Plano de Contas
+model ChartOfAccounts {
+  id     String        @id @default(uuid())
+  code   String        @unique // Ex: 1.1.01, 2.1.03
+  name   String // Ex: Caixa, Bancos, Fornecedores
+  type   AccountType
+  nature AccountNature // DEBIT or CREDIT
+
+  // Hierarquia
+  parentId String?
+  parent   ChartOfAccounts?  @relation("AccountHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  children ChartOfAccounts[] @relation("AccountHierarchy")
+
+  active Boolean @default(true)
+
+  accountsReceivable AccountsReceivable[]
+  accountsPayable    AccountsPayable[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("chart_of_accounts")
+}
+
+enum AccountType {
+  ASSET // Ativo
+  LIABILITY // Passivo
+  REVENUE // Receita
+  EXPENSE // Despesa
+  EQUITY // Patrimônio Líquido
+}
+
+enum AccountNature {
+  DEBIT // Natureza Devedora
+  CREDIT // Natureza Credora
+}
+
+// Contas a Receber
+model AccountsReceivable {
+  id          String @id @default(uuid())
+  description String
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id])
+
+  accountId String
+  account   ChartOfAccounts @relation(fields: [accountId], references: [id])
+
+  amount Decimal @db.Decimal(10, 2)
+
+  // Dates
+  issueDate DateTime  @default(now())
+  dueDate   DateTime
+  paidAt    DateTime?
+
+  // Payment
+  status        ReceivableStatus @default(PENDING)
+  paidAmount    Decimal?         @db.Decimal(10, 2)
+  paymentMethod PaymentMethod?
+
+  // References
+  saleId String?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accounts_receivable")
+}
+
+enum ReceivableStatus {
+  PENDING // Pendente
+  PAID // Pago
+  OVERDUE // Vencido
+  CANCELLED // Cancelado
+}
+
+// Contas a Pagar
+model AccountsPayable {
+  id          String @id @default(uuid())
+  description String
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id])
+
+  accountId String
+  account   ChartOfAccounts @relation(fields: [accountId], references: [id])
+
+  amount Decimal @db.Decimal(10, 2)
+
+  // Dates
+  issueDate DateTime  @default(now())
+  dueDate   DateTime
+  paidAt    DateTime?
+
+  // Payment
+  status        PayableStatus  @default(PENDING)
+  paidAmount    Decimal?       @db.Decimal(10, 2)
+  paymentMethod PaymentMethod?
+
+  // References
+  purchaseId String?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accounts_payable")
+}
+
+enum PayableStatus {
+  PENDING // Pendente
+  PAID // Pago
+  OVERDUE // Vencido
+  CANCELLED // Cancelado
+}
