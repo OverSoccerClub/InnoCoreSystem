@@ -122,7 +122,7 @@ export const createPartner = async (req: Request, res: Response): Promise<void> 
         res.status(201).json(partner);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         console.error('Error creating partner:', error);
@@ -156,7 +156,7 @@ export const updatePartner = async (req: Request, res: Response): Promise<void> 
         res.json(partner);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         console.error('Error updating partner:', error);

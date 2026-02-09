@@ -5,6 +5,7 @@ interface DecodedToken {
     id: string;
     email: string;
     role: string;
+    permissions?: string[];
 }
 
 declare global {

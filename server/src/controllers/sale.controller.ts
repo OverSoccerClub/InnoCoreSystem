@@ -59,7 +59,7 @@ export const createSale = async (req: Request, res: Response): Promise<void> => 
         res.status(201).json(result);
     } catch (error) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: (error as z.ZodError).errors });
+            res.status(400).json({ errors: (error as z.ZodError).issues });
             return;
         }
         console.error(error);

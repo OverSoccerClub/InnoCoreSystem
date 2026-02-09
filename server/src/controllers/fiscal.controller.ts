@@ -100,7 +100,7 @@ export class FiscalController {
             res.status(201).json(invoice);
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return res.status(400).json({ error: 'Dados inválidos', details: error.errors });
+                return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
             }
             console.error(error);
             res.status(500).json({ error: 'Erro ao criar nota fiscal' });
@@ -124,7 +124,7 @@ export class FiscalController {
             res.json(invoice);
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return res.status(400).json({ error: 'Dados inválidos', details: error.errors });
+                return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
             }
             console.error(error);
             res.status(500).json({ error: 'Erro ao atualizar nota fiscal' });

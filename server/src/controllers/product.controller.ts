@@ -135,7 +135,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         res.status(201).json(product);
     } catch (error) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         res.status(500).json({ message: 'Server error' });
@@ -162,7 +162,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
         res.json(product);
     } catch (error) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         res.status(500).json({ message: 'Server error' });

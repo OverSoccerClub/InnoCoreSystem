@@ -62,7 +62,7 @@ export const createCategory = async (req: Request, res: Response): Promise<void>
         res.status(201).json(category);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         res.status(500).json({ message: 'Server error' });
@@ -82,7 +82,7 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
         res.json(category);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         res.status(500).json({ message: 'Server error' });

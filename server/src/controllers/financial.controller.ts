@@ -88,7 +88,7 @@ export const createTransaction = async (req: Request, res: Response): Promise<vo
         res.status(201).json(transaction);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         console.error('Error creating transaction:', error);
@@ -112,7 +112,7 @@ export const updateTransaction = async (req: Request, res: Response): Promise<vo
         res.json(transaction);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         console.error('Error updating transaction:', error);

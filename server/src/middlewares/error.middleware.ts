@@ -8,7 +8,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     if (err instanceof ZodError) {
         return res.status(400).json({
             message: 'Validation Error',
-            errors: (err as ZodError).errors,
+            errors: err.issues,
         });
     }
 

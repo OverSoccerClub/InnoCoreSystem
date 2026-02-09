@@ -50,7 +50,7 @@ export const adjustStock = async (req: Request, res: Response): Promise<void> =>
         res.status(201).json(result);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         console.error('Error in adjustStock:', error);

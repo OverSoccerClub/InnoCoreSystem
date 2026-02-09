@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         res.status(201).json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, permissions: user.permissions } });
     } catch (error) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         res.status(500).json({ message: 'Server error' });
@@ -71,7 +71,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, permissions: user.permissions } });
     } catch (error) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ errors: error.errors });
+            res.status(400).json({ errors: error.issues });
             return;
         }
         res.status(500).json({ message: 'Server error' });

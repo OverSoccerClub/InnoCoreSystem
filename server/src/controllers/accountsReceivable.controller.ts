@@ -137,7 +137,7 @@ export class AccountsReceivableController {
             res.status(201).json(receivable);
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return res.status(400).json({ error: 'Dados inválidos', details: error.errors });
+                return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
             }
             console.error(error);
             res.status(500).json({ error: 'Erro ao criar conta a receber' });
@@ -166,7 +166,7 @@ export class AccountsReceivableController {
             res.json(receivable);
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return res.status(400).json({ error: 'Dados inválidos', details: error.errors });
+                return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
             }
             console.error(error);
             res.status(500).json({ error: 'Erro ao atualizar conta a receber' });
@@ -196,7 +196,7 @@ export class AccountsReceivableController {
             res.json(receivable);
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return res.status(400).json({ error: 'Dados inválidos', details: error.errors });
+                return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
             }
             console.error(error);
             res.status(500).json({ error: 'Erro ao registrar pagamento' });
