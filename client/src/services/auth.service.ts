@@ -1,6 +1,7 @@
 import type { LoginCredentials, AuthResponse, RegisterData } from '../types/auth';
+import { API_CONFIG } from '../config/api.config';
 
-const API_URL = 'http://localhost:3001/api/auth';
+const API_URL = API_CONFIG.ENDPOINTS.AUTH;
 
 export const authService = {
     async login(credentials: LoginCredentials): Promise<AuthResponse> {
