@@ -56,9 +56,9 @@ const DashboardLayout = () => {
             title: 'FINANCEIRO',
             items: [
                 { path: '/app/financial', icon: <DollarSign size={18} />, label: 'Fluxo de Caixa', permission: 'financial.view' },
-                { path: '/app/accounts/receivable', icon: <TrendingUp size={18} />, label: 'Contas a Receber', permission: 'accounts.receivable.view' },
-                { path: '/app/accounts/payable', icon: <TrendingDown size={18} />, label: 'Contas a Pagar', permission: 'accounts.payable.view' },
-                { path: '/app/accounts/chart', icon: <Receipt size={18} />, label: 'Plano de Contas', permission: 'financial.view' },
+                { path: '/app/accounts/receivable', icon: <TrendingUp size={18} />, label: 'Contas a Receber', permission: 'accounts_receivable.view' },
+                { path: '/app/accounts/payable', icon: <TrendingDown size={18} />, label: 'Contas a Pagar', permission: 'accounts_payable.view' },
+                { path: '/app/accounts/chart', icon: <Receipt size={18} />, label: 'Plano de Contas', permission: 'financial.view' }, // Keeping generalized financial view for now
                 { path: '/app/fiscal', icon: <FileText size={18} />, label: 'Fiscal', permission: 'fiscal.view' },
             ]
         },
@@ -66,16 +66,19 @@ const DashboardLayout = () => {
             title: 'SISTEMA',
             items: [
                 { path: '/app/users', icon: <Settings size={18} />, label: 'Usuários', permission: 'users.view' },
-                { path: '/app/settings/company', icon: <Building2 size={18} />, label: 'Empresa', permission: 'settings.view' },
+                { path: '/app/settings/company', icon: <Building2 size={18} />, label: 'Empresa', permission: 'company.view' },
             ]
         }
     ];
 
-    const hasPermission = (permission?: string) => {
-        if (!permission) return true;
+    const { user } = useAuth();
+
+    // Helper to check permission string manually since menu has full strings
+    const hasPermission = (permissionStr?: string) => {
+        if (!permissionStr) return true;
         if (!user) return false;
         if (user.role === 'ADMIN') return true;
-        return user.permissions?.includes(permission) || false;
+        return user.permissions?.includes(permissionStr) || false;
     };
 
     const filteredMenuGroups = menuGroups.map(group => ({
