@@ -5,9 +5,12 @@ import { Card, CardHeader, CardTitle, CardContent, Button, Table, Modal, Input, 
 import { Plus, Pencil, Trash2, Search, Save, Users, Truck, Info, MapPin, Tablet, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useDialog } from '../contexts/DialogContext';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { usePermission } from '../hooks/usePermission';
+import { PermissionGate } from '../components/auth/PermissionGate';
 
 const PartnersPage = () => {
     usePageTitle('Parceiros');
+    const { can } = usePermission();
     const dialog = useDialog();
     const [partners, setPartners] = useState<Partner[]>([]);
     const [loading, setLoading] = useState(true);
@@ -214,7 +217,9 @@ const PartnersPage = () => {
                         <Truck size={16} /> Fornecedores
                     </button>
                 </div>
-                <Button leftIcon={<Plus size={18} />} onClick={() => handleOpenModal()}>Novo {activeTab === 'CLIENT' ? 'Cliente' : 'Fornecedor'}</Button>
+                <PermissionGate resource="partners" action="create">
+                    <Button leftIcon={<Plus size={18} />} onClick={() => handleOpenModal()}>Novo {activeTab === 'CLIENT' ? 'Cliente' : 'Fornecedor'}</Button>
+                </PermissionGate>
             </div>
 
             <Card>
