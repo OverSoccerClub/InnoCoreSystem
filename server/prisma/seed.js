@@ -17,7 +17,6 @@ async function main() {
             email: 'admin@innocore.com',
             password: hashedPassword,
             role: 'ADMIN',
-            active: true,
         },
     });
 
