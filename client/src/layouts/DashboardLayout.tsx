@@ -109,7 +109,7 @@ const DashboardLayout = () => {
                 `}
             >
                 {/* Logo Area */}
-                <div className="h-14 flex items-center justify-center border-b border-slate-800/50 bg-slate-900 overflow-hidden relative">
+                <div className="h-14 flex items-center justify-start px-4 border-b border-slate-800/50 bg-slate-900 overflow-hidden relative">
                     {isSidebarOpen ? (
                         <img
                             src={logoImg}
