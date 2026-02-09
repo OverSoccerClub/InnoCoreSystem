@@ -16,8 +16,8 @@ COPY client/ .
 ARG VITE_API_URL=https://innocore-system-inno-api.jixesu.easypanel.host
 ENV VITE_API_URL=$VITE_API_URL
 
-# Build the application
-RUN npm run build
+# Clean cache and build the application
+RUN rm -rf node_modules/.vite && npm run build
 
 # Production stage
 FROM nginx:alpine
