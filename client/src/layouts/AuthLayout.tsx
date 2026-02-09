@@ -58,6 +58,11 @@ const AuthLayout = () => {
                 <div className="w-full max-w-[400px] z-10">
                     <Outlet />
                 </div>
+
+                {/* Footer - INNOVARE CODE */}
+                <div className="absolute bottom-6 right-6">
+                    <span className="text-xs text-muted-foreground font-medium">INNOVARE CODE</span>
+                </div>
             </div>
         </div>
     );
