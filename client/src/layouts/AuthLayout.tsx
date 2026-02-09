@@ -8,7 +8,7 @@ const AuthLayout = () => {
             <div className="hidden lg:flex relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex-col justify-between p-12 text-white">
                 <div className="relative z-10">
                     <img
-                        src="/logo.png"
+                        src={logoImg}
                         alt="InnoCore System"
                         className="h-16 w-auto object-contain"
                     />
@@ -49,7 +49,7 @@ const AuthLayout = () => {
                 {/* Mobile Header (Visible only on small screens) */}
                 <div className="lg:hidden absolute top-6 left-6">
                     <img
-                        src="/logo.png"
+                        src={logoImg}
                         alt="InnoCore System"
                         className="h-10 w-auto object-contain"
                     />
