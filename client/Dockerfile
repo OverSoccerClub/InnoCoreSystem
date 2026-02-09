@@ -28,6 +28,9 @@ COPY client/nginx.conf /etc/nginx/conf.d/default.conf
 # Copy built application
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Ensure logo is copied (Vite should handle this, but being explicit)
+COPY --from=builder /app/public/logo.png /usr/share/nginx/html/logo.png
+
 # Expose port
 EXPOSE 80
 
