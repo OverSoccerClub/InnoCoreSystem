@@ -82,20 +82,89 @@ npm install
 npm start
 ```
 
+## 🐳 Deploy com Docker
+
+### Opção 1: Docker Compose (Recomendado para desenvolvimento)
+
+```bash
+# Clone o repositório
+git clone https://github.com/OverSoccerClub/InnoCoreSystem.git
+cd InnoCoreSystem
+
+# Configure as variáveis de ambiente
+cp .env.example .env
+# Edite o .env com suas credenciais
+
+# Inicie todos os serviços
+docker-compose up -d
+
+# Verifique os logs
+docker-compose logs -f
+
+# Acesse:
+# Frontend: http://localhost
+# Backend: http://localhost:3000
+```
+
+### Opção 2: Build Individual
+
+**Backend:**
+```bash
+cd server
+docker build -t innocore-backend .
+docker run -p 3000:3000 \
+  -e DATABASE_URL="postgresql://user:pass@host:5432/db" \
+  -e JWT_SECRET="your_secret" \
+  innocore-backend
+```
+
+**Frontend:**
+```bash
+cd client
+docker build -t innocore-frontend \
+  --build-arg VITE_API_URL="http://localhost:3000" .
+docker run -p 80:80 innocore-frontend
+```
+
 ## 🌐 Deploy no Easepanel
 
-### Pré-requisitos
-- Conta no Easepanel
-- Servidor com Docker instalado
-- PostgreSQL configurado
+### Método 1: Usando Docker (Recomendado)
 
-### Passo a Passo
+#### Backend (API)
+1. Crie um novo serviço do tipo **"Docker"**
+2. Configure:
+   - **Nome**: `innocore-backend`
+   - **Repositório GitHub**: `https://github.com/OverSoccerClub/InnoCoreSystem.git`
+   - **Branch**: `main`
+   - **Dockerfile Path**: `server/Dockerfile`
+   - **Context Path**: `server`
+   - **Port**: `3000`
+   
+3. Variáveis de ambiente:
+   ```
+   DATABASE_URL=postgresql://user:password@postgres-host:5432/innocore
+   JWT_SECRET=seu_secret_jwt_seguro
+   PORT=3000
+   NODE_ENV=production
+   ```
 
-1. **Criar Banco de Dados PostgreSQL**
-   - No Easepanel, crie um serviço PostgreSQL
-   - Anote as credenciais (host, porta, usuário, senha, database)
+#### Frontend (Web)
+1. Crie um novo serviço do tipo **"Docker"**
+2. Configure:
+   - **Nome**: `innocore-frontend`
+   - **Repositório GitHub**: `https://github.com/OverSoccerClub/InnoCoreSystem.git`
+   - **Branch**: `main`
+   - **Dockerfile Path**: `client/Dockerfile`
+   - **Context Path**: `client`
+   - **Port**: `80`
+   
+3. Build Arguments:
+   ```
+   VITE_API_URL=https://seu-backend.easepanel.host
+   ```
 
-2. **Deploy do Backend**
+### Método 2: Build Manual (Alternativo)
+
    - Crie um novo serviço do tipo "GitHub"
    - Conecte ao repositório: `https://github.com/OverSoccerClub/InnoCoreSystem.git`
    - Configure o diretório: `server`
