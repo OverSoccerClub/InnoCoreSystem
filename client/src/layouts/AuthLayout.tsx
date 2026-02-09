@@ -6,13 +6,12 @@ const AuthLayout = () => {
         <div className="min-h-screen w-full lg:grid lg:grid-cols-2 h-screen overflow-hidden font-sans">
             {/* Left Side - Professional Branding */}
             <div className="hidden lg:flex relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex-col justify-between p-12 text-white">
-                <div className="relative z-10 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50">
-                        <Building2 size={20} className="text-white" />
-                    </div>
-                    <span className="text-xl font-semibold tracking-tight text-white">
-                        InnoCore
-                    </span>
+                <div className="relative z-10">
+                    <img
+                        src="/logo.png"
+                        alt="InnoCore System"
+                        className="h-16 w-auto object-contain"
+                    />
                 </div>
 
                 <div className="relative z-10 max-w-lg mb-20">
@@ -48,11 +47,12 @@ const AuthLayout = () => {
             {/* Right Side - Form Container */}
             <div className="flex items-center justify-center bg-white p-6 relative">
                 {/* Mobile Header (Visible only on small screens) */}
-                <div className="lg:hidden absolute top-6 left-6 flex items-center gap-2">
-                    <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center">
-                        <Building2 size={16} className="text-white" />
-                    </div>
-                    <span className="font-bold text-slate-900">InnoCore</span>
+                <div className="lg:hidden absolute top-6 left-6">
+                    <img
+                        src="/logo.png"
+                        alt="InnoCore System"
+                        className="h-10 w-auto object-contain"
+                    />
                 </div>
 
                 <div className="w-full max-w-[400px] z-10">
