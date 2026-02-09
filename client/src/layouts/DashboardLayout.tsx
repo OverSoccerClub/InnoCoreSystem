@@ -20,6 +20,8 @@ import {
     TrendingDown,
     FileText
 } from 'lucide-react';
+import logoImg from '../assets/logo.svg';
+import iconImg from '../assets/icon.svg';
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -107,20 +109,20 @@ const DashboardLayout = () => {
                 `}
             >
                 {/* Logo Area */}
-                <div className="h-14 flex items-center px-4 border-b border-slate-800/50 bg-slate-900">
-                    <div className="flex items-center gap-3 w-full overflow-hidden">
-                        <div className="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-                            <Building2 size={16} strokeWidth={2.5} />
-                        </div>
-                        <div className={`flex flex-col transition-all duration-300 ${isSidebarOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute'}`}>
-                            <span className="font-bold text-sm tracking-wide text-white leading-none">
-                                InnoCore
-                            </span>
-                            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-medium mt-0.5">
-                                Enterprise
-                            </span>
-                        </div>
-                    </div>
+                <div className="h-14 flex items-center justify-center border-b border-slate-800/50 bg-slate-900 overflow-hidden relative">
+                    {isSidebarOpen ? (
+                        <img
+                            src={logoImg}
+                            alt="InnoCore"
+                            className="h-8 max-w-[180px] object-contain transition-all duration-300 animate-in fade-in"
+                        />
+                    ) : (
+                        <img
+                            src={iconImg}
+                            alt="InnoCore"
+                            className="h-8 w-8 object-contain transition-all duration-300"
+                        />
+                    )}
                 </div>
 
                 {/* Navigation */}
