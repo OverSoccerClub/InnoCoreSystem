@@ -5,12 +5,10 @@ import { Card, CardHeader, CardTitle, CardContent, Button, Table, Modal, Input, 
 import { Plus, Pencil, Trash2, Search, Save, Users, Truck, Info, MapPin, Tablet, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useDialog } from '../contexts/DialogContext';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { usePermission } from '../hooks/usePermission';
 import { PermissionGate } from '../components/auth/PermissionGate';
 
 const PartnersPage = () => {
     usePageTitle('Parceiros');
-    const { can } = usePermission();
     const dialog = useDialog();
     const [partners, setPartners] = useState<Partner[]>([]);
     const [loading, setLoading] = useState(true);
@@ -194,8 +192,8 @@ const PartnersPage = () => {
     };
 
     return (
-        <div className="p-6 space-y-6">
-            <div className="flex justify-between items-center mb-6">
+        <div className="p-4 md:p-6 space-y-6">
+            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 mb-6">
                 <div>
                     <div className="flex items-center gap-3">
                         <Users className="w-7 h-7 text-primary" />
@@ -203,23 +201,27 @@ const PartnersPage = () => {
                     </div>
                     <p className="text-[var(--text-secondary)]">Gerencie seus Clientes e Fornecedores</p>
                 </div>
-                <div className="flex bg-white p-1 rounded-lg border border-gray-200">
-                    <button
-                        onClick={() => setActiveTab('CLIENT')}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'CLIENT' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
-                    >
-                        <Users size={16} /> Clientes
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('SUPPLIER')}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'SUPPLIER' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
-                    >
-                        <Truck size={16} /> Fornecedores
-                    </button>
+                <div className="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+                    <div className="flex bg-white p-1 rounded-lg border border-gray-200 w-full sm:w-auto">
+                        <button
+                            onClick={() => setActiveTab('CLIENT')}
+                            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'CLIENT' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
+                        >
+                            <Users size={16} /> Clientes
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('SUPPLIER')}
+                            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'SUPPLIER' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
+                        >
+                            <Truck size={16} /> Fornecedores
+                        </button>
+                    </div>
+                    <PermissionGate resource="partners" action="create">
+                        <Button leftIcon={<Plus size={18} />} onClick={() => handleOpenModal()} className="w-full sm:w-auto">
+                            Novo {activeTab === 'CLIENT' ? 'Cliente' : 'Fornecedor'}
+                        </Button>
+                    </PermissionGate>
                 </div>
-                <PermissionGate resource="partners" action="create">
-                    <Button leftIcon={<Plus size={18} />} onClick={() => handleOpenModal()}>Novo {activeTab === 'CLIENT' ? 'Cliente' : 'Fornecedor'}</Button>
-                </PermissionGate>
             </div>
 
             <Card>
@@ -459,8 +461,8 @@ const PartnersPage = () => {
 
                         {formTab === 'ADDRESS' && (
                             <>
-                                <div className="grid grid-cols-4 gap-4 items-end">
-                                    <div className="col-span-1">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                                    <div className="md:col-span-1">
                                         <Input
                                             label="CEP"
                                             value={formData.zipCode}
@@ -470,7 +472,7 @@ const PartnersPage = () => {
                                             placeholder="00000-000"
                                         />
                                     </div>
-                                    <div className="col-span-3">
+                                    <div className="md:col-span-3">
                                         <Input
                                             label="Logradouro (Rua, Av...)"
                                             value={formData.street}
@@ -479,8 +481,8 @@ const PartnersPage = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-4 gap-4">
-                                    <div className="col-span-1">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div className="md:col-span-1">
                                         <Input
                                             label="Número"
                                             value={formData.number}
@@ -488,7 +490,7 @@ const PartnersPage = () => {
                                             fullWidth
                                         />
                                     </div>
-                                    <div className="col-span-1">
+                                    <div className="md:col-span-1">
                                         <Input
                                             label="Complemento"
                                             value={formData.complement}
@@ -496,7 +498,7 @@ const PartnersPage = () => {
                                             fullWidth
                                         />
                                     </div>
-                                    <div className="col-span-2">
+                                    <div className="md:col-span-2">
                                         <Input
                                             label="Bairro"
                                             value={formData.neighborhood}
@@ -505,8 +507,8 @@ const PartnersPage = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-4 gap-4">
-                                    <div className="col-span-3">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div className="md:col-span-3">
                                         <Input
                                             label="Cidade"
                                             value={formData.city}
@@ -514,7 +516,7 @@ const PartnersPage = () => {
                                             fullWidth
                                         />
                                     </div>
-                                    <div className="col-span-1">
+                                    <div className="md:col-span-1">
                                         <Input
                                             label="UF"
                                             value={formData.state}

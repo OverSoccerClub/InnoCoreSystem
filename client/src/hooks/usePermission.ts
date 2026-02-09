@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
-import { PermissionResource, PermissionAction } from '../types/auth';
+import type { PermissionResource, PermissionAction } from '../types/auth';
 
 export const usePermission = () => {
     const { user } = useAuth();

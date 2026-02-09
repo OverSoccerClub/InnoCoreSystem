@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { usePermission } from '../../hooks/usePermission';
 
 interface PermissionGuardProps {
@@ -12,11 +12,18 @@ export const PermissionGuard: React.FC<PermissionGuardProps> = ({
     children,
     fallback = null
 }) => {
-    const hasPermission = usePermission(permission);
+    const { user } = usePermission();
 
-    if (!hasPermission) {
-        return <>{fallback}</>;
+    // Admin has full access
+    if (user?.role === 'ADMIN') {
+        return <>{children}</>;
     }
 
-    return <>{children}</>;
+    const hasPermission = user?.permissions?.includes(permission);
+
+    if (hasPermission) {
+        return <>{children}</>;
+    }
+
+    return <>{fallback}</>;
 };

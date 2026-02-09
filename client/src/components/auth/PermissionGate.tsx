@@ -1,6 +1,6 @@
 import React from 'react';
-import { usePermission } from '../hooks/usePermission';
-import { PermissionResource, PermissionAction } from '../types/auth';
+import { usePermission } from '../../hooks/usePermission';
+import type { PermissionResource, PermissionAction } from '../../types/auth';
 
 interface PermissionGateProps {
     resource: PermissionResource;

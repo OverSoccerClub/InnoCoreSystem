@@ -29,6 +29,32 @@ const DashboardLayout = () => {
     const navigate = useNavigate();
     const { user, logout } = useAuth();
 
+    // Close sidebar on mobile when route changes
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setSidebarOpen(false);
+            } else {
+                setSidebarOpen(true);
+            }
+        };
+
+        // Initial check
+        if (window.innerWidth < 768) {
+            setSidebarOpen(false);
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Close on navigation (mobile only)
+    React.useEffect(() => {
+        if (window.innerWidth < 768) {
+            setSidebarOpen(false);
+        }
+    }, [location]);
+
     const menuGroups = [
         {
             title: 'GESTÃO',
@@ -71,7 +97,7 @@ const DashboardLayout = () => {
         }
     ];
 
-    const { user } = useAuth();
+
 
     // Helper to check permission string manually since menu has full strings
     const hasPermission = (permissionStr?: string) => {
@@ -192,7 +218,7 @@ const DashboardLayout = () => {
             <main className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-slate-50 relative">
 
                 {/* Topbar - Clean White */}
-                <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
                     <div className="flex items-center gap-4 flex-1">
                         <button
                             onClick={() => setSidebarOpen(!isSidebarOpen)}
@@ -236,7 +262,7 @@ const DashboardLayout = () => {
                 </header>
 
                 {/* Content */}
-                <div className="flex-1 overflow-auto p-6 scroll-smooth z-10 relative">
+                <div className="flex-1 overflow-auto p-4 md:p-6 scroll-smooth z-10 relative">
                     <div className="max-w-[1600px] mx-auto h-full flex flex-col gap-6">
                         <Outlet />
                     </div>

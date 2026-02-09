@@ -49,7 +49,7 @@ const DashboardPage = () => {
     }
 
     return (
-        <div className="p-6 space-y-6">
+        <div className="p-4 md:p-6 space-y-6">
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -105,7 +105,7 @@ const DashboardPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Recent Transactions */}
                 <Card className="lg:col-span-2 border border-slate-200 shadow-sm bg-white rounded-lg">
-                    <CardHeader className="border-b border-slate-100 flex flex-row items-center justify-between py-4 px-6">
+                    <CardHeader className="border-b border-slate-100 flex flex-row items-center justify-between py-4 px-4 md:px-6">
                         <CardTitle className="text-sm font-semibold text-slate-800 flex items-center gap-2">
                             <Activity size={16} className="text-slate-400" />
                             Últimas Transações
@@ -189,7 +189,7 @@ const DashboardPage = () => {
 
 // Helper Components - Professional
 const MetricCard = ({ title, value, change, trend, icon, isPrimary, subtext, isAlert }: any) => (
-    <div className={`rounded-lg p-5 border transition-all duration-200 ${isPrimary
+    <div className={`rounded-lg p-4 md:p-5 border transition-all duration-200 ${isPrimary
         ? 'bg-white border-slate-200 shadow-sm'
         : 'bg-white border-slate-200 shadow-sm'}`}>
 

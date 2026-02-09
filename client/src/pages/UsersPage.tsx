@@ -5,12 +5,10 @@ import { Card, CardHeader, CardTitle, CardContent, Button, Table, Modal, Input, 
 import { Plus, Pencil, Trash2, Search, Save, UserCog, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useDialog } from '../contexts/DialogContext';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { usePermission } from '../hooks/usePermission';
 import { PermissionGate } from '../components/auth/PermissionGate';
 
 const UsersPage = () => {
     usePageTitle('Usuários');
-    const { can } = usePermission();
     const dialog = useDialog();
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -236,8 +234,8 @@ const UsersPage = () => {
     };
 
     return (
-        <div className="p-6 space-y-6">
-            <div className="flex justify-between items-center mb-6">
+        <div className="p-4 md:p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
                     <div className="flex items-center gap-3">
                         <UserCog className="w-7 h-7 text-primary" />

@@ -33,7 +33,7 @@ export const Modal: React.FC<ModalProps> = ({
     if (!isOpen) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px] transition-all duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px] transition-all duration-300 p-4">
             <div
                 className="relative bg-white dark:bg-[#1a1b1e] w-full rounded-2xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-0 flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200"
                 style={{ maxWidth: width }}

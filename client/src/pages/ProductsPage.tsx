@@ -7,12 +7,10 @@ import { Card, CardHeader, CardTitle, CardContent, Button, Table, Modal, Input, 
 import { Plus, Pencil, Trash2, Search, Save, Package, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useDialog } from '../contexts/DialogContext';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { usePermission } from '../hooks/usePermission';
 import { PermissionGate } from '../components/auth/PermissionGate';
 
 const ProductsPage = () => {
     usePageTitle('Produtos');
-    const { can } = usePermission();
     const dialog = useDialog();
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
@@ -179,8 +177,8 @@ const ProductsPage = () => {
     };
 
     return (
-        <div className="p-6 space-y-6">
-            <div className="flex justify-between items-center mb-6">
+        <div className="p-4 md:p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
                     <div className="flex items-center gap-3">
                         <Package className="w-7 h-7 text-primary" />
@@ -394,7 +392,7 @@ const ProductsPage = () => {
 
                     {/* Top Row: Identification */}
                     <div className="grid grid-cols-12 gap-4">
-                        <div className="col-span-6">
+                        <div className="col-span-12 md:col-span-6">
                             <Input
                                 label="Nome do Produto"
                                 value={formData.name}
@@ -404,7 +402,7 @@ const ProductsPage = () => {
                                 placeholder="Ex: Teclado Mecânico"
                             />
                         </div>
-                        <div className="col-span-2">
+                        <div className="col-span-6 md:col-span-2">
                             <Input
                                 label="SKU"
                                 value={formData.sku}
@@ -414,7 +412,7 @@ const ProductsPage = () => {
                                 placeholder="TEC-001"
                             />
                         </div>
-                        <div className="col-span-2 flex flex-col gap-1">
+                        <div className="col-span-6 md:col-span-2 flex flex-col gap-1">
                             <label className="text-sm font-medium text-[var(--text-secondary)]">Categoria</label>
                             <select
                                 className="input-field h-11 flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 transition-all focus:outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10 dark:bg-[#1a1b1e] dark:border-gray-800 dark:text-white"
@@ -429,7 +427,7 @@ const ProductsPage = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-span-2">
+                        <div className="col-span-12 md:col-span-2">
                             <Input
                                 label="Estoque"
                                 type="number"
@@ -441,7 +439,7 @@ const ProductsPage = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Left Column: Pricing */}
                         <div className="p-5 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-800">
                             <h4 className="text-sm font-bold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
@@ -509,8 +507,8 @@ const ProductsPage = () => {
                                     placeholder="5102"
                                 />
                             </div>
-                            <div className="grid grid-cols-3 gap-3 mt-3">
-                                <div className="col-span-2 flex flex-col gap-1">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+                                <div className="sm:col-span-2 flex flex-col gap-1">
                                     <label className="text-sm font-medium text-[var(--text-secondary)]">Origem</label>
                                     <select
                                         className="input-field h-11 flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 transition-all focus:outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10 dark:bg-[#1a1b1e] dark:border-gray-800 dark:text-white"
