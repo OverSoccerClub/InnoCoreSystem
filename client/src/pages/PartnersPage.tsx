@@ -251,24 +251,28 @@ const PartnersPage = () => {
                         ]}
                         actions={(partner) => (
                             <>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleOpenModal(partner)}
-                                    className="h-9 w-9 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                    title="Editar"
-                                >
-                                    <Pencil size={16} />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleDelete(partner.id)}
-                                    className="h-9 w-9 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                    title="Excluir"
-                                >
-                                    <Trash2 size={16} />
-                                </Button>
+                                <PermissionGate resource="partners" action="edit">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleOpenModal(partner)}
+                                        className="h-9 w-9 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                        title="Editar"
+                                    >
+                                        <Pencil size={16} />
+                                    </Button>
+                                </PermissionGate>
+                                <PermissionGate resource="partners" action="delete">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleDelete(partner.id)}
+                                        className="h-9 w-9 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                        title="Excluir"
+                                    >
+                                        <Trash2 size={16} />
+                                    </Button>
+                                </PermissionGate>
                             </>
 
                         )}
