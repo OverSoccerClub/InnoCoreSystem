@@ -5,7 +5,7 @@ const AuthLayout = () => {
     return (
         <div className="min-h-screen w-full lg:grid lg:grid-cols-2 h-screen overflow-hidden font-sans">
             {/* Left Side - Professional Branding */}
-            <div className="hidden lg:flex relative bg-slate-900 flex-col justify-between p-12 text-white">
+            <div className="hidden lg:flex relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex-col justify-between p-12 text-white">
                 <div className="relative z-10 flex items-center gap-3">
                     <div className="w-10 h-10 rounded bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50">
                         <Building2 size={20} className="text-white" />
