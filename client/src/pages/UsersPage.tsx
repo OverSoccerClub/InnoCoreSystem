@@ -31,9 +31,25 @@ const UsersPage = () => {
 
     const PERMISSION_GROUPS = [
         {
-            title: 'Gestão',
+            title: 'Dashboard',
             permissions: [
                 { id: 'dashboard.view', label: 'Visualizar Dashboard' },
+            ]
+        },
+        {
+            title: 'Gestão de Acesso',
+            permissions: [
+                { id: 'users.view', label: 'Visualizar Usuários' },
+                { id: 'users.create', label: 'Criar Usuários' },
+                { id: 'users.edit', label: 'Editar Usuários' },
+                { id: 'users.delete', label: 'Excluir Usuários' },
+            ]
+        },
+        {
+            title: 'Empresa',
+            permissions: [
+                { id: 'company.view', label: 'Visualizar Dados' },
+                { id: 'company.edit', label: 'Editar Configurações' },
             ]
         },
         {
@@ -41,45 +57,71 @@ const UsersPage = () => {
             permissions: [
                 { id: 'sales.view', label: 'Visualizar Vendas' },
                 { id: 'sales.create', label: 'Realizar Vendas' },
+                { id: 'sales.cancel', label: 'Cancelar Vendas' },
             ]
         },
         {
-            title: 'Logística',
+            title: 'Parceiros (Clientes/Fornecedores)',
+            permissions: [
+                { id: 'partners.view', label: 'Visualizar Parceiros' },
+                { id: 'partners.create', label: 'Cadastrar Parceiros' },
+                { id: 'partners.edit', label: 'Editar Parceiros' },
+                { id: 'partners.delete', label: 'Excluir Parceiros' },
+            ]
+        },
+        {
+            title: 'Produtos & Categorias',
             permissions: [
                 { id: 'products.view', label: 'Visualizar Produtos' },
-                { id: 'products.manage', label: 'Gerenciar Produtos' },
+                { id: 'products.create', label: 'Cadastrar Produtos' },
+                { id: 'products.edit', label: 'Editar Produtos' },
+                { id: 'products.delete', label: 'Excluir Produtos' },
                 { id: 'categories.view', label: 'Visualizar Categorias' },
-                { id: 'categories.manage', label: 'Gerenciar Categorias' },
-                { id: 'inventory.view', label: 'Visualizar Estoque' },
-                { id: 'inventory.manage', label: 'Gerenciar Estoque' },
-                { id: 'purchases.view', label: 'Visualizar Compras' },
-                { id: 'purchases.manage', label: 'Gerenciar Compras' },
+                { id: 'categories.create', label: 'Criar Categorias' },
+                { id: 'categories.edit', label: 'Editar Categorias' },
+                { id: 'categories.delete', label: 'Excluir Categorias' },
             ]
         },
         {
-            title: 'Financeiro',
+            title: 'Estoque',
             permissions: [
-                { id: 'financial.view', label: 'Visualizar Fluxo de Caixa' },
-                { id: 'financial.manage', label: 'Gerenciar Lançamentos' },
-                { id: 'accounts.receivable.view', label: 'Visualizar Contas a Receber' },
-                { id: 'accounts.receivable.manage', label: 'Gerenciar Contas a Receber' },
-                { id: 'accounts.payable.view', label: 'Visualizar Contas a Pagar' },
-                { id: 'accounts.payable.manage', label: 'Gerenciar Contas a Pagar' },
+                { id: 'inventory.view', label: 'Visualizar Estoque' },
+                { id: 'inventory.edit', label: 'Ajuste Manual de Estoque' },
+                { id: 'purchases.view', label: 'Visualizar Compras' },
+                { id: 'purchases.create', label: 'Lançar Compras' },
+                { id: 'purchases.delete', label: 'Cancelar Compras' },
+            ]
+        },
+        {
+            title: 'Financeiro - Fluxo de Caixa',
+            permissions: [
+                { id: 'financial.view', label: 'Visualizar Fluxo' },
+            ]
+        },
+        {
+            title: 'Contas a Receber',
+            permissions: [
+                { id: 'accounts_receivable.view', label: 'Visualizar Contas' },
+                { id: 'accounts_receivable.create', label: 'Lançar Receita' },
+                { id: 'accounts_receivable.edit', label: 'Editar Lançamento' },
+                { id: 'accounts_receivable.delete', label: 'Excluir Lançamento' },
+            ]
+        },
+        {
+            title: 'Contas a Pagar',
+            permissions: [
+                { id: 'accounts_payable.view', label: 'Visualizar Contas' },
+                { id: 'accounts_payable.create', label: 'Lançar Despesa' },
+                { id: 'accounts_payable.edit', label: 'Editar Lançamento' },
+                { id: 'accounts_payable.delete', label: 'Excluir Lançamento' },
             ]
         },
         {
             title: 'Fiscal',
             permissions: [
-                { id: 'fiscal.view', label: 'Visualizar Notas Fiscais' },
-                { id: 'fiscal.manage', label: 'Emitir/Gerenciar Notas' },
-            ]
-        },
-        {
-            title: 'Sistema',
-            permissions: [
-                { id: 'users.view', label: 'Visualizar Usuários' },
-                { id: 'users.manage', label: 'Gerenciar Usuários' },
-                { id: 'settings.view', label: 'Configurações da Empresa' },
+                { id: 'fiscal.view', label: 'Visualizar Notas' },
+                { id: 'fiscal.create', label: 'Emitir Nota' },
+                { id: 'fiscal.cancel', label: 'Cancelar Nota' },
             ]
         }
     ];
