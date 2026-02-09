@@ -313,54 +313,57 @@ const UsersPage = () => {
                 onClose={() => setIsModalOpen(false)}
                 title={editingUser ? 'Editar Usuário' : 'Novo Usuário'}
                 icon={<UserCog size={24} />}
+                width="900px"
             >
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <Input
-                        label="Nome Completo"
-                        value={formData.name}
-                        onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        required
-                        fullWidth
-                    />
-                    <Input
-                        label="Email"
-                        type="email"
-                        value={formData.email}
-                        onChange={e => setFormData({ ...formData, email: e.target.value })}
-                        required
-                        fullWidth
-                    />
-                    <Input
-                        label={editingUser ? "Nova Senha (opcional)" : "Senha"}
-                        type="password"
-                        value={formData.password}
-                        onChange={e => setFormData({ ...formData, password: e.target.value })}
-                        fullWidth
-                    />
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Input
+                            label="Nome Completo"
+                            value={formData.name}
+                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                            required
+                            fullWidth
+                        />
+                        <Input
+                            label="Email"
+                            type="email"
+                            value={formData.email}
+                            onChange={e => setFormData({ ...formData, email: e.target.value })}
+                            required
+                            fullWidth
+                        />
+                        <Input
+                            label={editingUser ? "Nova Senha (opcional)" : "Senha"}
+                            type="password"
+                            value={formData.password}
+                            onChange={e => setFormData({ ...formData, password: e.target.value })}
+                            fullWidth
+                        />
 
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-[var(--text-secondary)]">Função</label>
-                        <select
-                            className="input-field"
-                            value={formData.role}
-                            onChange={e => setFormData({ ...formData, role: e.target.value as any })}
-                        >
-                            <option value="USER">Usuário Padrão</option>
-                            <option value="MANAGER">Gerente</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-medium text-[var(--text-secondary)]">Função</label>
+                            <select
+                                className="h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                                value={formData.role}
+                                onChange={e => setFormData({ ...formData, role: e.target.value as any })}
+                            >
+                                <option value="USER">Usuário Padrão</option>
+                                <option value="MANAGER">Gerente</option>
+                                <option value="ADMIN">Administrador</option>
+                            </select>
+                        </div>
                     </div>
 
                     {formData.role !== 'ADMIN' && (
-                        <div className="space-y-3 pt-2 border-t border-slate-100 mt-2">
+                        <div className="space-y-3 pt-4 border-t border-slate-100">
                             <h4 className="font-semibold text-sm text-slate-800">Permissões de Acesso</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                                 {PERMISSION_GROUPS.map((group) => (
-                                    <div key={group.title} className="space-y-2">
-                                        <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 pb-1 mb-1">{group.title}</h5>
+                                    <div key={group.title} className="space-y-2 bg-slate-50 p-3 rounded-lg">
+                                        <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200 pb-1 mb-1">{group.title}</h5>
                                         <div className="space-y-1">
                                             {group.permissions.map((perm) => (
-                                                <label key={perm.id} className="flex items-center gap-2 p-1.5 rounded hover:bg-slate-50 cursor-pointer transition-colors group">
+                                                <label key={perm.id} className="flex items-center gap-2 p-1 rounded hover:bg-white cursor-pointer transition-colors group">
                                                     <input
                                                         type="checkbox"
                                                         checked={formData.permissions?.includes(perm.id)}
@@ -377,7 +380,7 @@ const UsersPage = () => {
                         </div>
                     )}
 
-                    <div className="flex justify-end gap-2 mt-4">
+                    <div className="flex justify-end gap-2 pt-4 border-t border-slate-100">
                         <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} leftIcon={<X size={18} />}>Cancelar</Button>
                         <Button type="submit" leftIcon={<Save size={18} />}>Salvar</Button>
                     </div>
