@@ -1,6 +1,7 @@
+import { API_CONFIG } from '../config/api.config';
 import type { User } from '../types/auth';
 
-const API_URL = 'http://localhost:3001/api/users';
+const API_URL = API_CONFIG.ENDPOINTS.USERS;
 
 export const userService = {
     async getAll(params?: { page?: number; limit?: number; search?: string }): Promise<{ data: User[]; meta: { total: number; page: number; limit: number; totalPages: number } }> {

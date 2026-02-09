@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3001/api/accounts/chart';
+import { API_CONFIG } from '../config/api.config';
+const API_URL = API_CONFIG.ENDPOINTS.CHART_OF_ACCOUNTS;
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');

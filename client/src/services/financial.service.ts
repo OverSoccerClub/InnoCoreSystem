@@ -1,3 +1,4 @@
+import { API_CONFIG } from '../config/api.config';
 export interface FinancialTransaction {
     id: string;
     description: string;
@@ -24,7 +25,7 @@ export interface PaginatedResponse<T> {
     };
 }
 
-const API_URL = 'http://localhost:3001/api/financial';
+const API_URL = API_CONFIG.ENDPOINTS.FINANCIAL;
 
 export const financialService = {
     async getTransactions(params?: any): Promise<PaginatedResponse<FinancialTransaction>> {

@@ -1,3 +1,4 @@
+import { API_CONFIG } from '../config/api.config';
 import type { Partner } from '../types/partner';
 
 export interface SaleItem {
@@ -32,7 +33,7 @@ export interface PaginatedResponse<T> {
     };
 }
 
-const API_URL = 'http://localhost:3001/api/sales';
+const API_URL = API_CONFIG.ENDPOINTS.SALES;
 
 export const saleService = {
     async getAll(params?: {

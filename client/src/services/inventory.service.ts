@@ -1,3 +1,4 @@
+import { API_CONFIG } from '../config/api.config';
 export interface StockMovement {
     id: string;
     productId: string;
@@ -21,7 +22,7 @@ export interface PaginatedResponse<T> {
     };
 }
 
-const API_URL = 'http://localhost:3001/api/inventory';
+const API_URL = API_CONFIG.ENDPOINTS.INVENTORY;
 
 export const inventoryService = {
     async getMovements(params?: {

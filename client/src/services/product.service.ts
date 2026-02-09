@@ -1,6 +1,7 @@
+import { API_CONFIG } from '../config/api.config';
 import type { Product } from '../types/product';
 
-const API_URL = 'http://localhost:3001/api/products';
+const API_URL = API_CONFIG.ENDPOINTS.PRODUCTS;
 
 export interface PaginatedResponse<T> {
     data: T[];

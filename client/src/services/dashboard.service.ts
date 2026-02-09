@@ -1,5 +1,6 @@
+import { API_CONFIG } from '../config/api.config';
 
-const API_URL = 'http://localhost:3001/api/dashboard';
+const API_URL = API_CONFIG.ENDPOINTS.DASHBOARD;
 
 export interface DashboardStats {
     salesToday: number;

@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:3001/api';
+import { API_CONFIG } from '../config/api.config';
+const API_BASE_URL = API_CONFIG.ENDPOINTS.ACCOUNTS_PAYABLE;
 
 const API_URL = `${API_BASE_URL}/accounts/payable`;
 

@@ -1,6 +1,7 @@
+import { API_CONFIG } from '../config/api.config';
 import type { Partner } from '../types/partner';
 
-const API_URL = 'http://localhost:3001/api/partners';
+const API_URL = API_CONFIG.ENDPOINTS.PARTNERS;
 
 export interface PaginatedResponse<T> {
     data: T[];
