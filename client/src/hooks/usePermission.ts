@@ -1,13 +1,26 @@
 import { useAuth } from '../contexts/AuthContext';
+import { PermissionResource, PermissionAction } from '../types/auth';
 
-export const usePermission = (requiredPermission: string): boolean => {
+export const usePermission = () => {
     const { user } = useAuth();
 
-    if (!user) return false;
+    const can = (resource: PermissionResource, action: PermissionAction): boolean => {
+        if (!user) return false;
 
-    // Admin has full access
-    if (user.role === 'ADMIN') return true;
+        // Admin has full access
+        if (user.role === 'ADMIN') return true;
 
-    // Check if user has the specific permission
-    return user.permissions?.includes(requiredPermission) || false;
+        // Construct permission string
+        const permission = `${resource}.${action}`;
+
+        // Check if user has permission
+        return user.permissions?.includes(permission) || false;
+    };
+
+    const hasRole = (roles: string[]): boolean => {
+        if (!user) return false;
+        return roles.includes(user.role);
+    };
+
+    return { can, hasRole, user };
 };
