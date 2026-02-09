@@ -12,8 +12,8 @@ RUN npm ci
 # Copy source code from client directory
 COPY client/ .
 
-# Build argument for API URL
-ARG VITE_API_URL
+# Build argument for API URL with default value
+ARG VITE_API_URL=https://innocore-system-inno-api.jixesu.easypanel.host
 ENV VITE_API_URL=$VITE_API_URL
 
 # Build the application
