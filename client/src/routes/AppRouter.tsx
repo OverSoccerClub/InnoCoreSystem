@@ -4,7 +4,7 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import AuthLayout from '../layouts/AuthLayout';
 import LoginPage from '../pages/LoginPage';
 import { ProtectedRoute } from './ProtectedRoute';
-import { PermissionGuard } from '../components/auth/PermissionGuard';
+import { PermissionGate } from '../components/auth/PermissionGate';
 
 import UsersPage from '../pages/UsersPage';
 import ProductsPage from '../pages/ProductsPage';
@@ -38,20 +38,20 @@ const AppRouter = () => {
                         </ProtectedRoute>
                     }
                 >
-                    <Route index element={<PermissionGuard permission="dashboard.view"><DashboardPage /></PermissionGuard>} />
-                    <Route path="products" element={<PermissionGuard permission="products.view"><ProductsPage /></PermissionGuard>} />
-                    <Route path="categories" element={<PermissionGuard permission="categories.view"><CategoriesPage /></PermissionGuard>} />
-                    <Route path="purchases" element={<PermissionGuard permission="purchases.view"><PurchasesPage /></PermissionGuard>} />
-                    <Route path="partners" element={<PermissionGuard permission="partners.view"><PartnersPage /></PermissionGuard>} />
-                    <Route path="sales" element={<PermissionGuard permission="sales.view"><SalesPage /></PermissionGuard>} />
-                    <Route path="inventory" element={<PermissionGuard permission="inventory.view"><InventoryPage /></PermissionGuard>} />
-                    <Route path="financial" element={<PermissionGuard permission="financial.view"><FinancialPage /></PermissionGuard>} />
-                    <Route path="accounts/chart" element={<PermissionGuard permission="financial.view"><ChartOfAccountsPage /></PermissionGuard>} />
-                    <Route path="accounts/receivable" element={<PermissionGuard permission="accounts.receivable.view"><AccountsReceivablePage /></PermissionGuard>} />
-                    <Route path="accounts/payable" element={<PermissionGuard permission="accounts.payable.view"><AccountsPayablePage /></PermissionGuard>} />
-                    <Route path="fiscal" element={<PermissionGuard permission="fiscal.view"><FiscalPage /></PermissionGuard>} />
-                    <Route path="users" element={<PermissionGuard permission="users.view"><UsersPage /></PermissionGuard>} />
-                    <Route path="settings/company" element={<PermissionGuard permission="settings.view"><CompanySettingsPage /></PermissionGuard>} />
+                    <Route index element={<PermissionGate resource="dashboard" action="view"><DashboardPage /></PermissionGate>} />
+                    <Route path="products" element={<PermissionGate resource="products" action="view"><ProductsPage /></PermissionGate>} />
+                    <Route path="categories" element={<PermissionGate resource="categories" action="view"><CategoriesPage /></PermissionGate>} />
+                    <Route path="purchases" element={<PermissionGate resource="purchases" action="view"><PurchasesPage /></PermissionGate>} />
+                    <Route path="partners" element={<PermissionGate resource="partners" action="view"><PartnersPage /></PermissionGate>} />
+                    <Route path="sales" element={<PermissionGate resource="sales" action="view"><SalesPage /></PermissionGate>} />
+                    <Route path="inventory" element={<PermissionGate resource="inventory" action="view"><InventoryPage /></PermissionGate>} />
+                    <Route path="financial" element={<PermissionGate resource="financial" action="view"><FinancialPage /></PermissionGate>} />
+                    <Route path="accounts/chart" element={<PermissionGate resource="chart_of_accounts" action="view"><ChartOfAccountsPage /></PermissionGate>} />
+                    <Route path="accounts/receivable" element={<PermissionGate resource="accounts_receivable" action="view"><AccountsReceivablePage /></PermissionGate>} />
+                    <Route path="accounts/payable" element={<PermissionGate resource="accounts_payable" action="view"><AccountsPayablePage /></PermissionGate>} />
+                    <Route path="fiscal" element={<PermissionGate resource="fiscal" action="view"><FiscalPage /></PermissionGate>} />
+                    <Route path="users" element={<PermissionGate resource="users" action="view"><UsersPage /></PermissionGate>} />
+                    <Route path="settings/company" element={<PermissionGate resource="company" action="view"><CompanySettingsPage /></PermissionGate>} />
                 </Route>
 
                 <Route path="/print/invoice/:id" element={
